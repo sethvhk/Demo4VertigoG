@@ -1,3 +1,15 @@
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store*
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+[Tt]humbs.db
+[Dd]esktop.ini
+
 #################
 ## Eclipse
 #################
@@ -15,8 +27,6 @@ local.properties
 .classpath
 .settings/
 .loadpath
-temp/
-Library/
 
 # External tool builders
 .externalToolBuilders/
@@ -30,6 +40,15 @@ Library/
 # PDT-specific
 .buildpath
 
+# =============== #
+# Unity generated #
+# =============== #
+[Tt]emp/
+[Oo]bj/
+[Bb]uild
+/[Ll]ibrary/
+sysinfo.txt
+*.stackdump
 
 #################
 ## Visual Studio
