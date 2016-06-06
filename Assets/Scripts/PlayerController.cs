@@ -9,24 +9,47 @@ public class PlayerController : MonoBehaviour {
 	public Text winText1;
 	public AudioClip pickupsound;
 	public AudioClip winnerwinner;
+    public Button playAgainButton;
 	private int count;
+    private Vector3 moveTowardsPosition;
+    private bool shouldMove;
+    private Rigidbody rb;
 
-	void Start (){
-		count = 0;
-		SetCountText ();
-		winText1.text = "";
-	}
+    // Called on first frame this script is active, (i.e. first frame of game)
+    void Start()
+    {
+        winText1.text = "";
+        rb = GetComponent<Rigidbody>();
+        count = 0;
+        SetCountText();
+        shouldMove = false;        
+    }
 
-	void FixedUpdate () {
+    void FixedUpdate()
+    {
+        if (shouldMove) // if gaze click vector receieved, apply force in that direction
+        {
+            Vector3 movement = moveTowardsPosition - gameObject.transform.position;
+            rb.AddForce(movement * speed);
+            shouldMove = false;
+        }
+        else
+        {
+            float moveHorizontal = Input.GetAxis("Horizontal");
+            float moveVertical = Input.GetAxis("Vertical");
+            Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical);
+            rb.AddForce(movement * speed * Time.deltaTime);
+        }
+    }
 
-		float x = Input.GetAxis("Horizontal");
-		float y = Input.GetAxis("Vertical");
-		Vector3 movement = new Vector3 (x, 0.0f, y);
-		GetComponent<Rigidbody>().AddForce(movement * speed * Time.deltaTime);
-		
-	}
+    //Gaze click vector
+    public void SetMoveTowardsPoint(Vector3 worldPosition)
+    {
+        moveTowardsPosition = worldPosition;
+        shouldMove = true;
+    }
 
-	void OnTriggerEnter(Collider other) {
+    void OnTriggerEnter(Collider other) {
 
 		if (other.gameObject.tag == "Zombie") {
 
@@ -49,7 +72,7 @@ public class PlayerController : MonoBehaviour {
 			winText1.text = "YOU WIN!";
             countText1.text = "SURVIVED 5/5";
             GetComponent<AudioSource>().PlayOneShot(winnerwinner, 1.0F);
-		}
+        }
 	}
 
     //old death animation, use physics/rigidbody instead
